@@ -11,18 +11,21 @@ router.post('/items', async (req, res)=>{
     const newItem = await ItemModel.create({name, description})
     res.json(newItem)
 })
-router.put('/items', async (req, res)=>{
-    const { id, name, description } = req.body
-    const item = await ItemModel.findByPk(id)
-    if(item){
-        item.name = name
-        item.description = description
-        await item.save()
-        res.json(item)
-    }else{
-     res.status(404).send('item not found')   
+router.put('/items/:id', async (req, res) => {
+    const { id } = req.params; // Lấy ID từ params
+    const { name, description } = req.body; // Lấy dữ liệu từ body
+    const item = await Item.findByPk(id);
+    
+    if (item) {
+      item.name = name;
+      item.description = description;
+      await item.save();
+      res.json(item);
+    } else {
+      res.status(404).send('Item not found'); // Trả về 404 nếu không tìm thấy item
     }
-})
+  });
+  
 router.delete('/items', async (req, res)=>{
     const { id } = req.body
     const item = await ItemModel.findByPk(id)

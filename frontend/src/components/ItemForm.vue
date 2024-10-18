@@ -8,8 +8,10 @@
     </form>
   </div>
 </template>
+
 <script>
 import axios from "axios";
+
 export default {
   props: ["itemToEdit"],
   data() {
@@ -22,30 +24,38 @@ export default {
       isEditMode: false,
     };
   },
-  watch() {
+  watch: {
     itemToEdit: {
       immediate: true,
-        handler(newValue),
-        {
-          if(newValue) {
-            this.item = { ...newValue };
-            this.isEditMode = true;
-          },
-        };
-    }
+      handler(newValue) {
+        if (newValue) {
+          this.item = { ...newValue };
+          this.isEditMode = true;
+        } else {
+          this.resetForm(); // Reset the form if there's no item to edit
+        }
+      },
+    },
   },
   methods: {
     handleSubmit() {
-      if (this.isEditMode) {
-        axios
-          .put(`http://localhost:3000/api/items/${this.item.id}`, this.item)
-          .then(() => this.resetForm());
-      } else {
-        axios
-          .post("http://localhost:3000/api/items", this.item)
-          .then(() => this.resetForm());
-      }
-    },
+  if (this.isEditMode) {
+    axios
+      .put(`http://localhost:3000/api/items/${this.item.id}`, this.item)
+      .then(() => this.resetForm())
+      .catch(error => {
+        console.error('Error updating item:', error); // Ghi lại lỗi nếu có
+      });
+  } else {
+    axios
+      .post("http://localhost:3000/api/items", this.item)
+      .then(() => this.resetForm())
+      .catch(error => {
+        console.error('Error adding item:', error); // Ghi lại lỗi nếu có
+      });
+  }
+}
+,
     resetForm() {
       this.item = { id: null, name: "", description: "" };
       this.isEditMode = false;
