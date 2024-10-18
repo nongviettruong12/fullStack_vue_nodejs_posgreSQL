@@ -41,11 +41,14 @@ export default {
     handleSubmit() {
   if (this.isEditMode) {
     axios
-      .put(`http://localhost:3000/api/items/${this.item.id}`, this.item)
-      .then(() => this.resetForm())
-      .catch(error => {
-        console.error('Error updating item:', error); // Ghi lại lỗi nếu có
-      });
+  .put(`http://localhost:3000/api/items/${this.item.id}`, this.item)
+  .then(() => {
+      this.resetForm();
+      console.log('Item updated successfully');
+  })
+  .catch(error => {
+      console.error('Error updating item:', error.response ? error.response.data : error.message); // In ra thông tin chi tiết về lỗi
+  });
   } else {
     axios
       .post("http://localhost:3000/api/items", this.item)
