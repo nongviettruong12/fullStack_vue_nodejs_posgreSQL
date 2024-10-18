@@ -38,8 +38,8 @@ router.put('/items/:id', async (req, res) => {
     }
   });
   
-router.delete('/items', async (req, res)=>{
-    const { id } = req.body
+router.delete('/items/:id', async (req, res)=>{
+    const { id } = req.params
     const item = await ItemModel.findByPk(id)
     if(item){
         await item.destroy()
