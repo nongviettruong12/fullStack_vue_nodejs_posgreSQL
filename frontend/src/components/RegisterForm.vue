@@ -1,5 +1,5 @@
 <template>
-        <h2>user form </h2>
+                <h1>ok</h1>
 </template>
 <script>
 export default {

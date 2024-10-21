@@ -1,17 +1,36 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
 import ItemListView from "@/view/ItemListView.vue";
 import UserListView from "@/view/UserListView.vue";
 import ItemForm from "@/components/ItemForm.vue";
 import UserForm from "@/components/UserForm.vue";
+import LayoutAdmin from '../layout/LayoutAdmin.vue'
+import LayoutClient from '../layout/LayoutClient.vue';
+import LoginForm from '../components/LoginForm.vue';
+import RegisterForm from "../components/RegisterForm.vue";
+import { createRouter, createWebHistory } from 'vue-router';
 
-Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "ItemList",
-    component: ItemListView,
+    name: "LayoutClient",
+    component: LayoutClient,
+  },
+  {
+    path: "/admin",
+    name: "LayoutAdmin",
+    component: LayoutAdmin,
+    children:[
+      {
+        path: 'login',
+        component: LoginForm,
+        name: 'LoginForm',
+      },
+      {
+        path:'register',
+        component: RegisterForm,
+        name: 'RegisterForm',
+      }
+    ]
   },
   {
     path: "/items",
@@ -46,10 +65,9 @@ const routes = [
     props: true,
 },
 ];
-const router = new VueRouter({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes,
+const router = createRouter({
+  history: createWebHistory(), // Sử dụng createWebHistory cho Vue 3
+  routes,
 })
 
 export default router;

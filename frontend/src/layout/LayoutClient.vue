@@ -1,5 +1,5 @@
 <template>
-        <h2>user form </h2>
+            <h1>hello vue</h1>
 </template>
 <script>
 export default {
