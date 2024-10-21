@@ -1,6 +1,9 @@
 // controllers/user.controller.js
 const User = require('../model/userModel');
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 
+const JWT_SECRET = 'JWT_SECRET_KEY'
 // Lấy tất cả người dùng
 exports.getAllUsers = async (req, res) => {
     try {
@@ -15,7 +18,8 @@ exports.getAllUsers = async (req, res) => {
 exports.createUser = async (req, res) => {
     const { userName, email, password } = req.body;
     try {
-        const newUser = await User.create({ userName, email, password });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = await User.create({ userName, email, password: hashedPassword });
         res.status(201).json(newUser);
     } catch (error) {
         res.status(500).json({ error: 'Failed to create user' });
@@ -57,3 +61,19 @@ exports.deleteUser = async (req, res) => {
         res.status(500).json({ error: 'Failed to delete user' });
     }
 };
+exports.updateUserRole = async (req, res) => {
+    const { id } = req.params
+    const { role } = req.body
+    try{
+        const user = await User.findByPk(id)
+        if(!user){
+            user.role = role
+            await user.save()
+            res.json({message:'cap nhat role thanh cong',user})
+        }else{
+            res.status(404).json({error: 'User not found'})
+        }
+    }catch(error){
+        res.status(500).json({error: 'da xay ra loi',error})
+    }
+}

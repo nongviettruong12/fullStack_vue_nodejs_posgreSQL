@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const sequelize = require("./config/database");
 const itemRouter = require("./routes/itemRoutes");
 const userRoutes = require('./routes/userRoutes');
+const authRouter = require('./routes/authRoutes');
+const { verifyToken, isAdmin } = require('./middleware/authMiddleware');
 require('dotenv').config();
 
 const app = express();
@@ -11,9 +13,16 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
+
 app.use("/api", itemRouter);
-app.use('/api', userRoutes);
-app.use(express.json());
+app.use('/api/auth',authRouter)
+app.use('/api/users', userRoutes);
+
+
+app.get('/api/admin/data', verifyToken, isAdmin, (req, res) => {
+  res.json({ message: 'This is admin data' });
+});
+
 sequelize
   .sync({ alter: true })
   .then(() => {

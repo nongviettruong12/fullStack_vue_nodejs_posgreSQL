@@ -33,6 +33,11 @@ const User = sequelize.define(
         notEmpty: true,
       },
     },
+    role: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 1, // Mặc đ��nh role của người dùng là 1
+    }
   },
   {
     tableName: "users", // Tên bảng trong database
