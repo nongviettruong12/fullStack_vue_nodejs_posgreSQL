@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 
 app.use("/api", itemRouter);
 app.use('/api/auth',authRouter)
-app.use('/api/users', userRoutes);
+app.use('/api', userRoutes);
 
 
 app.get('/api/admin/data', verifyToken, isAdmin, (req, res) => {
