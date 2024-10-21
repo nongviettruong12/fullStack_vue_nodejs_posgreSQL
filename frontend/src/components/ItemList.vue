@@ -2,13 +2,33 @@
 <template>
   <div>
     <h2>Item List</h2>
-    <ul>
-      <li v-for="item in items" :key="item.id">
-        {{ item.name }} - {{ item.description }}
-        <button @click="editItem(item)">Edit</button>
-        <button @click="deleteItem(item.id)">Delete</button>
-      </li>
-    </ul>
+    <v-table>
+      <thead>
+      <tr>
+        <th class="text-left">
+          Name
+        </th>
+        <th class="text-left">
+          description
+        </th>
+        <th class="text-left">
+          action
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        v-for="item in items"
+        :key="item.id"
+      >
+        <td>{{ item.name }}</td>
+        <td>{{ item.description }}</td>
+        <td> <v-btn @click="editItem(item)">Edit</v-btn></td>
+        <td> <v-btn @click="deleteItem(item.id)">Delete</v-btn></td>
+      </tr>
+    </tbody>
+    </v-table>
+    
   </div>
 </template>
   

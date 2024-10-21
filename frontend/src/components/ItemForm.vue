@@ -4,7 +4,7 @@
     <form @submit.prevent="handleSubmit">
       <input v-model="item.name" placeholder="Name" required />
       <input v-model="item.description" placeholder="Description" required />
-      <button type="submit">{{ isEditMode ? "Update" : "Add" }}</button>
+      <v-btn type="submit">{{ isEditMode ? "Update" : "Add" }}</v-btn>
     </form>
   </div>
 </template>
